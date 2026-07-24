@@ -22,5 +22,4 @@ def test_ai():
 
 @app.get("/summarize")
 def summarize_video(url: str):
-    summary = generate_summary(url)
-    return {"summary": summary}
+    return generate_summary(url)
