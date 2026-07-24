@@ -10,25 +10,27 @@ function Button({
 
   const variants = {
     primary: `
-      bg-indigo-600
+      bg-gradient-to-r
+      from-violet-500
+      to-indigo-500
       text-white
 
       shadow-lg
-      shadow-indigo-200/60
+      shadow-violet-900/40
 
-      hover:bg-indigo-700
-      hover:shadow-indigo-300
+      hover:from-violet-400
+      hover:to-indigo-400
     `,
 
     secondary: `
-      bg-white/70
-      text-slate-700
+      bg-white/5
+      text-white
 
       border
-      border-white/60
+      border-white/15
 
-      hover:bg-white
-      hover:border-indigo-100
+      hover:bg-white/10
+      hover:border-white/25
     `,
   };
 

@@ -1,456 +1,119 @@
+import { useState } from "react";
 import { motion } from "framer-motion";
-import {
-  Mic,
-  Sparkles,
-  FileText,
-  Brain,
-  Layers,
-} from "lucide-react";
+import { Sparkles, FileText, BrainCircuit, Layers, ArrowRight } from "lucide-react";
 
 import Button from "../components/Button";
+import GradientBackground from "../components/GradientBackground";
+import AIOrb from "../components/AIOrb";
+import FloatingCard from "../components/FloatingCard";
+import StorySection from "../components/StorySection";
+import ComingSoonModal from "../components/ComingSoonModal";
 
+const floatingCards = [
+  {
+    icon: FileText,
+    title: "Lecture Summary Generated",
+    text: "Concise, structured summary ready",
+    className: "top-4 -left-4 md:-left-20",
+    delay: 0.7,
+    floatDuration: 5,
+  },
+  {
+    icon: BrainCircuit,
+    title: "Key Concepts Extracted",
+    text: "12 core concepts identified",
+    className: "top-1/2 -right-4 md:-right-24 -translate-y-1/2",
+    delay: 1,
+    floatDuration: 6,
+  },
+  {
+    icon: Layers,
+    title: "Flashcards Ready",
+    text: "24 cards generated for revision",
+    className: "bottom-2 -left-2 md:-left-28",
+    delay: 1.3,
+    floatDuration: 4.5,
+  },
+  {
+    icon: Sparkles,
+    title: "Quiz Created",
+    text: "10 question adaptive quiz",
+    className: "bottom-8 -right-2 md:-right-16",
+    delay: 1.6,
+    floatDuration: 5.5,
+  },
+];
 
 function Home() {
-
-  const floatingCards = [
-    {
-      icon: FileText,
-      title: "Summary",
-      text: "Key lecture points generated",
-      position: "top-10 -left-20",
-    },
-    {
-      icon: Brain,
-      title: "Insights",
-      text: "Concepts understood",
-      position: "bottom-10 -right-24",
-    },
-    {
-      icon: Layers,
-      title: "Flashcards",
-      text: "Revision ready",
-      position: "top-40 -right-28",
-    },
-  ];
-
+  const [aiLearningOpen, setAiLearningOpen] = useState(false);
 
   return (
+    <div className="relative min-h-screen text-white overflow-x-hidden">
+      <GradientBackground />
 
-    <div
-      className="
-        min-h-screen
-        overflow-hidden
-        relative
-
-        bg-gradient-to-br
-        from-indigo-50
-        via-white
-        to-purple-100
-      "
-    >
-
-      {/* Animated background blobs */}
-
-      <motion.div
-        animate={{
-          x:[0,40,0],
-          y:[0,-30,0],
-        }}
-        transition={{
-          duration:8,
-          repeat:Infinity,
-        }}
-        className="
-          absolute
-          top-20
-          left-20
-
-          w-72
-          h-72
-
-          bg-indigo-300/30
-          blur-3xl
-          rounded-full
-        "
-      />
-
-
-      <motion.div
-        animate={{
-          x:[0,-40,0],
-          y:[0,40,0],
-        }}
-        transition={{
-          duration:10,
-          repeat:Infinity,
-        }}
-        className="
-          absolute
-          bottom-20
-          right-20
-
-          w-80
-          h-80
-
-          bg-purple-300/30
-          blur-3xl
-          rounded-full
-        "
-      />
-
-
-
-      <section
-        className="
-          max-w-7xl
-          mx-auto
-
-          min-h-[85vh]
-
-          flex
-          flex-col
-          items-center
-          justify-center
-
-          text-center
-
-          px-8
-        "
-      >
-
-
-        {/* Badge */}
-
+      {/* Hero */}
+      <section className="relative z-10 max-w-7xl mx-auto px-6 md:px-8 pt-40 pb-24 min-h-screen flex flex-col items-center justify-center text-center">
         <motion.div
-
-          initial={{
-            opacity:0,
-            y:-20
-          }}
-
-          animate={{
-            opacity:1,
-            y:0
-          }}
-
-          className="
-            flex
-            items-center
-            gap-2
-
-            px-4
-            py-2
-
-            rounded-full
-
-            bg-white/70
-            backdrop-blur
-
-            border
-            border-white
-
-            text-sm
-            text-indigo-600
-          "
+          initial={{ opacity: 0, y: -16 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.6 }}
+          className="flex items-center gap-2 px-4 py-2 rounded-full bg-white/[0.06] backdrop-blur-xl border border-white/10 text-xs tracking-wide text-violet-200"
         >
-
-          <Sparkles size={16}/>
-
-          AI Powered Lecture Intelligence
-
+          <Sparkles size={14} />
+          Smarter lecture notes, automatically
         </motion.div>
 
-
-
-        {/* Heading */}
-
         <motion.h1
-
-          initial={{
-            opacity:0,
-            y:30
-          }}
-
-          animate={{
-            opacity:1,
-            y:0
-          }}
-
-          transition={{
-            delay:0.2
-          }}
-
-          className="
-            mt-8
-
-            text-5xl
-            md:text-6xl
-
-            font-semibold
-
-            tracking-tight
-
-            text-slate-900
-
-            max-w-3xl
-          "
+          initial={{ opacity: 0, y: 30 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.7, delay: 0.15 }}
+          className="mt-8 font-serif text-5xl md:text-7xl leading-[1.05] tracking-tight max-w-4xl"
         >
-
-          From lecture
-          <span className="text-indigo-600">
-            {" "}to learning
+          Every lecture,{" "}
+          <span className="bg-gradient-to-r from-violet-300 via-fuchsia-200 to-indigo-300 bg-clip-text text-transparent italic">
+            understood.
           </span>
-
-
         </motion.h1>
 
-
-
         <motion.p
-
-          initial={{
-            opacity:0
-          }}
-
-          animate={{
-            opacity:1
-          }}
-
-          transition={{
-            delay:0.4
-          }}
-
-          className="
-            mt-5
-
-            text-lg
-            text-slate-600
-
-            max-w-xl
-          "
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.7, delay: 0.3 }}
+          className="mt-6 max-w-xl text-base md:text-lg text-white/50"
         >
-
-          LectureLens AI listens, understands,
-          and transforms lectures into smart notes,
-          summaries and revision material.
-
+          Turn every lecture into notes, flashcards, and revision material —
+          the moment it ends.
         </motion.p>
 
+        {/* Orb + floating AI output cards */}
+        <div className="relative mt-16 flex items-center justify-center w-full max-w-2xl h-96 md:h-[440px]">
+          <AIOrb />
+          {floatingCards.map((card) => (
+            <FloatingCard key={card.title} {...card} />
+          ))}
+        </div>
 
-
-        {/* AI Orb */}
-
-        <div
-          className="
-            relative
-
-            mt-16
-
-            flex
-            items-center
-            justify-center
-          "
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.7, delay: 0.5 }}
+          className="mt-10 flex flex-col sm:flex-row items-center gap-4"
         >
-
-
-          {/* Glow */}
-
-          <motion.div
-
-            animate={{
-              scale:[1,1.2,1],
-              opacity:[0.3,0.6,0.3]
-            }}
-
-            transition={{
-              duration:3,
-              repeat:Infinity
-            }}
-
-            className="
-              absolute
-
-              w-72
-              h-72
-
-              rounded-full
-
-              bg-indigo-400/30
-
-              blur-3xl
-            "
-          />
-
-
-
-          {/* Mic */}
-
-          <motion.div
-
-            animate={{
-              y:[0,-15,0]
-            }}
-
-            transition={{
-              duration:4,
-              repeat:Infinity
-            }}
-
-            className="
-              relative
-              z-10
-
-              w-40
-              h-40
-
-              rounded-full
-
-              bg-white/80
-
-              backdrop-blur-xl
-
-              border
-              border-white
-
-              shadow-2xl
-
-              flex
-              items-center
-              justify-center
-            "
-          >
-
-            <Mic
-              size={55}
-              className="
-                text-indigo-600
-              "
-            />
-
-
-
-            {/* waves */}
-
-            <motion.div
-
-              animate={{
-                scale:[1,1.4,1],
-                opacity:[0.5,0,0.5]
-              }}
-
-              transition={{
-                duration:2,
-                repeat:Infinity
-              }}
-
-              className="
-                absolute
-
-                inset-0
-
-                rounded-full
-
-                border-2
-
-                border-indigo-300
-              "
-            />
-
-
-          </motion.div>
-
-
-
-          {/* Floating cards */}
-
-          {floatingCards.map((card,index)=>{
-
-            const Icon = card.icon;
-
-            return (
-
-              <motion.div
-
-                key={index}
-
-                animate={{
-                  y:[0,-10,0]
-                }}
-
-                transition={{
-                  duration:3+index,
-                  repeat:Infinity
-                }}
-
-                className={`
-                  absolute
-
-                  ${card.position}
-
-                  hidden
-                  md:block
-
-                  w-48
-
-                  p-4
-
-                  rounded-2xl
-
-                  bg-white/70
-
-                  backdrop-blur-xl
-
-                  border
-                  border-white
-
-                  shadow-lg
-
-                  text-left
-                `}
-              >
-
-                <Icon
-                  size={20}
-                  className="text-indigo-600"
-                />
-
-                <h3 className="font-semibold mt-2">
-                  {card.title}
-                </h3>
-
-                <p className="text-xs text-slate-500">
-                  {card.text}
-                </p>
-
-
-              </motion.div>
-
-            )
-
-          })}
-
-
-        </div>
-
-
-
-        <div className="mt-14">
-
-          <Button>
+          <Button variant="primary" className="group">
             Analyze Lecture
+            <ArrowRight size={16} className="transition-transform duration-300 group-hover:translate-x-1" />
           </Button>
-
-        </div>
-
-
+          <Button variant="secondary" onClick={() => setAiLearningOpen(true)}>
+            Explore AI Learning
+          </Button>
+        </motion.div>
       </section>
 
+      <StorySection />
 
+      <ComingSoonModal open={aiLearningOpen} onClose={() => setAiLearningOpen(false)} />
     </div>
-
-  )
-
+  );
 }
-
 
 export default Home;
