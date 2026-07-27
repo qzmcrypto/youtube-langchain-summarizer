@@ -7,22 +7,22 @@ const PARTICLES = Array.from({ length: 10 });
 
 function AIOrb() {
   return (
-    <div className="relative flex items-center justify-center w-72 h-72">
+    <div className="relative flex items-center justify-center w-64 h-64">
       {/* radiating voice-wave rings */}
       {[0, 1, 2].map((i) => (
         <motion.div
           key={i}
-          animate={{ scale: [1, 1.7, 1], opacity: [0.35, 0, 0.35] }}
+          animate={{ scale: [1, 1.7, 1], opacity: [0.25, 0, 0.25] }}
           transition={{ duration: 4, repeat: Infinity, delay: i * 1.1, ease: "easeInOut" }}
-          className="absolute w-40 h-40 rounded-full border border-violet-400/30"
+          className="absolute w-36 h-36 rounded-full border border-violet-400/30 will-change-transform"
         />
       ))}
 
       {/* soft pulsing aura */}
       <motion.div
-        animate={{ scale: [1, 1.15, 1], opacity: [0.5, 0.8, 0.5] }}
+        animate={{ scale: [1, 1.15, 1], opacity: [0.4, 0.65, 0.4] }}
         transition={{ duration: 5, repeat: Infinity, ease: "easeInOut" }}
-        className="absolute w-56 h-56 rounded-full bg-gradient-to-br from-violet-500/40 via-purple-500/30 to-blue-500/30 blur-3xl"
+        className="absolute w-48 h-48 rounded-full bg-gradient-to-br from-violet-500/30 via-purple-500/20 to-blue-500/20 blur-3xl will-change-transform"
       />
 
       {/* AI processing particles */}
@@ -50,9 +50,9 @@ function AIOrb() {
       <motion.div
         animate={{ y: [0, -14, 0] }}
         transition={{ duration: 5, repeat: Infinity, ease: "easeInOut" }}
-        className="relative z-10 w-40 h-40 rounded-full bg-white/10 backdrop-blur-2xl border border-white/20 shadow-[0_0_60px_-8px_rgba(139,92,246,0.65)] flex flex-col items-center justify-center gap-3"
+        className="relative z-10 w-36 h-36 rounded-full bg-white/10 backdrop-blur-2xl border border-white/20 shadow-[0_0_60px_-8px_rgba(139,92,246,0.65)] flex flex-col items-center justify-center gap-3"
       >
-        <Mic size={40} className="text-white drop-shadow-[0_0_10px_rgba(196,181,253,0.8)]" />
+        <Mic size={36} className="text-white drop-shadow-[0_0_10px_rgba(196,181,253,0.8)]" />
         <VoiceWave barCount={9} size="sm" />
       </motion.div>
     </div>

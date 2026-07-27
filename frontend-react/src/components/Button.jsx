@@ -41,10 +41,12 @@ function Button({
 
       whileHover={{
         scale: 1.04,
+        transition: { type: "spring", stiffness: 300, damping: 20 },
       }}
 
       whileTap={{
         scale: 0.97,
+        transition: { type: "spring", stiffness: 400, damping: 25 },
       }}
 
       className={`

@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { Link, NavLink } from "react-router-dom";
 import { motion } from "framer-motion";
-import { AudioLines, Sparkles } from "lucide-react";
+import { AudioLines } from "lucide-react";
 
 import ComingSoonModal from "./ComingSoonModal";
 
@@ -11,11 +11,12 @@ function Navbar() {
   const [aiLearningOpen, setAiLearningOpen] = useState(false);
 
   return (
-    <motion.header
+    <>
+      <motion.header
       initial={{ opacity: 0, y: -24 }}
       animate={{ opacity: 1, y: 0 }}
-      transition={{ duration: 0.6, ease: "easeOut" }}
-      className="fixed top-6 inset-x-0 z-50 flex justify-center px-4"
+      transition={{ duration: 0.7, ease: [0.16, 1, 0.3, 1] }}
+      className="fixed top-0 w-full z-50 flex justify-center px-4 pt-4 pb-3 backdrop-blur-md bg-gradient-to-b from-[#05050b]/60 to-transparent"
     >
       <nav
         className="
@@ -32,7 +33,7 @@ function Navbar() {
         "
       >
         <Link to="/" className="flex items-center gap-2.5 pr-4 mr-1 border-r border-white/10">
-          <div className="w-9 h-9 rounded-full bg-gradient-to-br from-violet-500 to-indigo-500 flex items-center justify-center shadow-[0_0_20px_-4px_rgba(139,92,246,0.8)]">
+          <div className="w-9 h-9 rounded-full bg-gradient-to-br from-violet-500 to-indigo-500 flex items-center justify-center shadow-[0_0_20px_-4px_rgba(139,92,246,0.55)]">
             <AudioLines size={18} className="text-white" />
           </div>
           <span className="hidden sm:inline text-lg font-bold tracking-tight">
@@ -65,15 +66,11 @@ function Navbar() {
         >
           AI Learning
         </button>
-
-        <div className="hidden md:flex items-center gap-1.5 ml-1 pl-3 border-l border-white/10 text-xs text-violet-300/80">
-          <Sparkles size={13} />
-          <span>Beta</span>
-        </div>
       </nav>
+      </motion.header>
 
       <ComingSoonModal open={aiLearningOpen} onClose={() => setAiLearningOpen(false)} />
-    </motion.header>
+    </>
   );
 }
 

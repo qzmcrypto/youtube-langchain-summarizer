@@ -13,12 +13,15 @@ function GlassCard({ children, className = "" }) {
       }}
       viewport={{
         once: true,
+        margin: "-50px",
       }}
       transition={{
-        duration: 0.5,
+        duration: 0.7,
+        ease: [0.16, 1, 0.3, 1],
       }}
       whileHover={{
         y: -6,
+        transition: { type: "spring", stiffness: 300, damping: 22 },
       }}
       className={`
         relative

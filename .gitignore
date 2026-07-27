@@ -10,3 +10,7 @@ __pycache__/
 
 .claude/
 .agents/
+
+node_modules/
+dist/
+.env

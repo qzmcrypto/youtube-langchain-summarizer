@@ -14,7 +14,7 @@ function GradientBackground() {
           scale: [1, 1.15, 0.95, 1],
         }}
         transition={{ duration: 26, repeat: Infinity, ease: "easeInOut" }}
-        className="absolute top-[-15%] left-[-10%] w-[45vw] h-[45vw] rounded-full bg-violet-600/30 blur-[120px] mix-blend-screen"
+        className="absolute top-[-15%] left-[-10%] w-[45vw] h-[45vw] rounded-full bg-violet-600/20 blur-[140px] mix-blend-screen will-change-transform"
       />
       <motion.div
         animate={{
@@ -23,7 +23,7 @@ function GradientBackground() {
           scale: [1, 0.9, 1.1, 1],
         }}
         transition={{ duration: 30, repeat: Infinity, ease: "easeInOut" }}
-        className="absolute bottom-[-20%] right-[-10%] w-[50vw] h-[50vw] rounded-full bg-blue-600/25 blur-[130px] mix-blend-screen"
+        className="absolute bottom-[-20%] right-[-10%] w-[50vw] h-[50vw] rounded-full bg-blue-600/15 blur-[150px] mix-blend-screen will-change-transform"
       />
       <motion.div
         animate={{
@@ -31,7 +31,7 @@ function GradientBackground() {
           y: [0, -40, 30, 0],
         }}
         transition={{ duration: 22, repeat: Infinity, ease: "easeInOut" }}
-        className="absolute top-[25%] right-[5%] w-[30vw] h-[30vw] rounded-full bg-fuchsia-500/20 blur-[110px] mix-blend-screen"
+        className="absolute top-[25%] right-[5%] w-[30vw] h-[30vw] rounded-full bg-fuchsia-500/15 blur-[130px] mix-blend-screen will-change-transform"
       />
       <motion.div
         animate={{
@@ -39,7 +39,7 @@ function GradientBackground() {
           y: [0, 40, -50, 0],
         }}
         transition={{ duration: 34, repeat: Infinity, ease: "easeInOut" }}
-        className="absolute top-[55%] left-[5%] w-[26vw] h-[26vw] rounded-full bg-indigo-500/20 blur-[100px] mix-blend-screen"
+        className="absolute top-[55%] left-[5%] w-[26vw] h-[26vw] rounded-full bg-indigo-500/15 blur-[120px] mix-blend-screen will-change-transform"
       />
 
       {/* grain texture for depth */}

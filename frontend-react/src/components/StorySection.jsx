@@ -7,10 +7,12 @@ import {
   FileText,
   Layers,
   HelpCircle,
+  Upload,
 } from "lucide-react";
 
 import GlassPanel from "./GlassPanel";
 import VoiceWave from "./VoiceWave";
+import Button from "./Button";
 
 const stages = [
   {
@@ -137,7 +139,7 @@ const VISUALS = {
   transform: TransformVisual,
 };
 
-function StorySection() {
+function StorySection({ fileInputRef, onUpload, onPasteLink }) {
   const [active, setActive] = useState(0);
   const stage = stages[active];
   const Visual = VISUALS[stage.key];
@@ -147,8 +149,8 @@ function StorySection() {
       <motion.div
         initial={{ opacity: 0, y: 20 }}
         whileInView={{ opacity: 1, y: 0 }}
-        viewport={{ once: true }}
-        transition={{ duration: 0.6 }}
+        viewport={{ once: true, margin: "-50px" }}
+        transition={{ duration: 0.7, ease: [0.16, 1, 0.3, 1] }}
         className="text-center max-w-2xl mx-auto mb-16"
       >
         <span className="text-xs uppercase tracking-[0.3em] text-violet-300/70">How it works</span>
@@ -188,7 +190,7 @@ function StorySection() {
                       initial={{ opacity: 0, height: 0, marginTop: 0 }}
                       animate={{ opacity: 1, height: "auto", marginTop: 12 }}
                       exit={{ opacity: 0, height: 0, marginTop: 0 }}
-                      transition={{ duration: 0.3 }}
+                      transition={{ duration: 0.35, ease: [0.16, 1, 0.3, 1] }}
                       className="text-sm text-white/50 overflow-hidden"
                     >
                       {s.description}
@@ -208,13 +210,29 @@ function StorySection() {
               initial={{ opacity: 0, scale: 0.95 }}
               animate={{ opacity: 1, scale: 1 }}
               exit={{ opacity: 0, scale: 0.95 }}
-              transition={{ duration: 0.4 }}
+              transition={{ duration: 0.45, ease: [0.16, 1, 0.3, 1] }}
               className="w-full h-full flex items-center justify-center"
             >
               <Visual />
             </motion.div>
           </AnimatePresence>
         </GlassPanel>
+      </div>
+
+      <div className="w-full flex justify-center items-center gap-6 mt-16 mb-8">
+        <input
+          ref={fileInputRef}
+          type="file"
+          accept="video/*,audio/*"
+          className="hidden"
+        />
+        <Button variant="primary" onClick={onUpload}>
+          <Upload size={16} />
+          Upload Lecture
+        </Button>
+        <Button variant="secondary" onClick={onPasteLink}>
+          Paste YouTube Link
+        </Button>
       </div>
     </section>
   );
