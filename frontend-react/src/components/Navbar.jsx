@@ -5,10 +5,7 @@ import { AudioLines, Sparkles } from "lucide-react";
 
 import ComingSoonModal from "./ComingSoonModal";
 
-const navItems = [
-  { name: "Home", path: "/" },
-  { name: "Workspace", path: "/workspace" },
-];
+const navItems = [{ name: "Home", path: "/" }];
 
 function Navbar() {
   const [aiLearningOpen, setAiLearningOpen] = useState(false);
