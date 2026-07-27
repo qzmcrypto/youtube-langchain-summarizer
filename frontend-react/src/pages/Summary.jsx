@@ -1,4 +1,3 @@
-import { useState } from "react";
 import { motion } from "framer-motion";
 import { useLocation, useNavigate } from "react-router-dom";
 import {
@@ -18,6 +17,8 @@ import remarkGfm from "remark-gfm";
 import GradientBackground from "../components/GradientBackground";
 import GlassPanel from "../components/GlassPanel";
 import Button from "../components/Button";
+import SoonBadge from "../components/SoonBadge";
+import { PAGE_TRANSITION } from "../lib/motion";
 
 const timelineContainerVariants = {
   hidden: { opacity: 0 },
@@ -85,35 +86,29 @@ function BulletList({ items, icon: Icon, accent }) {
 }
 
 function AskAIBar() {
-  const [prompt, setPrompt] = useState("");
-
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    // Wired up to a backend refinement endpoint in a future update.
-  };
-
   return (
     <div className="fixed bottom-0 left-0 right-0 z-20 px-4 pb-6 pt-4 bg-gradient-to-t from-[#05050b] via-[#05050b]/90 to-transparent">
-      <form
-        onSubmit={handleSubmit}
-        className="max-w-3xl mx-auto flex items-center gap-3 px-4 py-3 rounded-2xl bg-white/[0.06] backdrop-blur-2xl border border-white/15 shadow-[0_8px_40px_-12px_rgba(0,0,0,0.6)]"
+      <div
+        title="AI-guided refinement is coming soon"
+        className="max-w-3xl mx-auto flex items-center gap-3 px-4 py-3 rounded-2xl bg-white/[0.04] backdrop-blur-2xl border border-white/10 shadow-[0_8px_40px_-12px_rgba(0,0,0,0.6)]"
       >
-        <Sparkles size={18} className="text-violet-300/80 flex-shrink-0" />
+        <Sparkles size={18} className="text-violet-300/50 flex-shrink-0" />
         <input
           type="text"
-          value={prompt}
-          onChange={(e) => setPrompt(e.target.value)}
-          placeholder="Tell AI what to do next (e.g., Summarize this further, arrange alphabetically, extract action items)..."
-          className="w-full bg-transparent text-sm text-white placeholder:text-white/35 outline-none"
+          disabled
+          placeholder="Ask AI to refine this summary — coming soon"
+          className="w-full bg-transparent text-sm text-white/40 placeholder:text-white/30 outline-none cursor-not-allowed"
         />
+        <SoonBadge className="flex-shrink-0" />
         <button
-          type="submit"
-          disabled={!prompt.trim()}
-          className="flex-shrink-0 flex items-center justify-center w-9 h-9 rounded-xl bg-gradient-to-r from-violet-500 to-indigo-500 text-white disabled:opacity-40 disabled:cursor-not-allowed transition-opacity"
+          type="button"
+          disabled
+          aria-label="AI refinement — coming soon"
+          className="flex-shrink-0 flex items-center justify-center w-9 h-9 rounded-xl bg-white/5 text-white/30 disabled:cursor-not-allowed"
         >
           <ArrowUp size={16} />
         </button>
-      </form>
+      </div>
     </div>
   );
 }
@@ -139,10 +134,7 @@ function Summary() {
       <GradientBackground />
 
       <motion.section
-        initial={{ opacity: 0, y: 10 }}
-        animate={{ opacity: 1, y: 0 }}
-        exit={{ opacity: 0, y: -10 }}
-        transition={{ duration: 0.3 }}
+        {...PAGE_TRANSITION}
         className="relative z-10 max-w-7xl mx-auto px-6 md:px-10 pt-40 pb-40"
       >
         <div className="mb-8">

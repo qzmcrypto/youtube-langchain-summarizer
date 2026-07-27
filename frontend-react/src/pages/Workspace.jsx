@@ -17,6 +17,8 @@ import GlassPanel from "../components/GlassPanel";
 import Button from "../components/Button";
 import AnalyzeOverlay from "../components/AnalyzeOverlay";
 import { analyzeVideo } from "../lib/api";
+import { getRecentLectures, saveRecentLecture } from "../lib/recentLectures";
+import { PAGE_TRANSITION } from "../lib/motion";
 
 const YOUTUBE_URL_REGEX =
   /^(https?:\/\/)?(www\.)?(youtube\.com\/(watch\?v=|shorts\/|embed\/)|youtu\.be\/)[\w-]+/i;
@@ -43,6 +45,10 @@ function Workspace() {
   const [isAnalyzing, setIsAnalyzing] = useState(false);
   const [error, setError] = useState("");
   const navigate = useNavigate();
+  // Workspace fully remounts on every navigation (App keys routes by
+  // pathname), so a plain read on mount is enough to stay fresh — no need
+  // for reactive state here.
+  const recentLectures = getRecentLectures();
 
   const handleAnalyze = async (e) => {
     e.preventDefault();
@@ -58,6 +64,7 @@ function Workspace() {
 
     try {
       const data = await analyzeVideo(url.trim());
+      saveRecentLecture({ videoUrl: url.trim(), summaryData: data });
       navigate("/summary", { state: { summaryData: data, videoUrl: url.trim() } });
     } catch (err) {
       setError(err.message || "Something went wrong. Please try again.");
@@ -66,16 +73,17 @@ function Workspace() {
     }
   };
 
+  const openRecentLecture = (entry) => {
+    navigate("/summary", { state: { summaryData: entry.summaryData, videoUrl: entry.videoUrl } });
+  };
+
   return (
     <div className="relative min-h-screen text-white overflow-x-hidden">
       <GradientBackground />
       <AnalyzeOverlay active={isAnalyzing} />
 
       <motion.section
-        initial={{ opacity: 0, y: 10 }}
-        animate={{ opacity: 1, y: 0 }}
-        exit={{ opacity: 0, y: -10 }}
-        transition={{ duration: 0.3 }}
+        {...PAGE_TRANSITION}
         className="relative z-10 max-w-6xl mx-auto px-6 md:px-10 pt-40 pb-24"
       >
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-10 items-start">
@@ -97,7 +105,11 @@ function Workspace() {
               >
                 <div className="flex-1 flex items-center gap-3 px-4 py-3 rounded-2xl bg-white/5 border border-white/10 focus-within:border-violet-400/40 transition-colors">
                   <Link2 size={18} className="text-white/40 flex-shrink-0" />
+                  <label htmlFor="lecture-url" className="sr-only">
+                    YouTube lecture URL
+                  </label>
                   <input
+                    id="lecture-url"
                     type="url"
                     value={url}
                     onChange={(e) => setUrl(e.target.value)}
@@ -106,12 +118,7 @@ function Workspace() {
                     className="w-full bg-transparent text-sm text-white placeholder:text-white/30 outline-none disabled:opacity-50"
                   />
                 </div>
-                <Button
-                  type="submit"
-                  variant="primary"
-                  disabled={isAnalyzing}
-                  className="disabled:opacity-60 disabled:cursor-not-allowed"
-                >
+                <Button type="submit" variant="primary" disabled={isAnalyzing}>
                   <AnimatePresence mode="wait" initial={false}>
                     {isAnalyzing ? (
                       <motion.span
@@ -149,6 +156,7 @@ function Workspace() {
               <AnimatePresence>
                 {error && (
                   <motion.div
+                    role="alert"
                     initial={{ opacity: 0, height: 0, marginTop: 0 }}
                     animate={{ opacity: 1, height: "auto", marginTop: 12 }}
                     exit={{ opacity: 0, height: 0, marginTop: 0 }}
@@ -166,17 +174,51 @@ function Workspace() {
                 Recent lectures
               </h2>
 
-              <GlassPanel
-                className="mt-6 p-10 flex flex-col items-center text-center gap-3"
-                hover={false}
-              >
-                <div className="w-12 h-12 rounded-full bg-white/5 border border-white/10 flex items-center justify-center">
-                  <FileText size={20} className="text-white/40" />
-                </div>
-                <p className="text-sm text-white/40">
-                  Nothing here yet — analyze your first lecture to see it appear.
-                </p>
-              </GlassPanel>
+              {recentLectures.length ? (
+                <ul className="mt-6 space-y-3">
+                  {recentLectures.map((entry) => (
+                    <li key={entry.videoUrl}>
+                      <button
+                        type="button"
+                        onClick={() => openRecentLecture(entry)}
+                        className="w-full flex items-center gap-4 p-4 rounded-2xl bg-white/[0.04] border border-white/10 backdrop-blur-2xl text-left hover:bg-white/[0.07] hover:border-violet-400/30 transition-colors"
+                      >
+                        <div className="w-12 h-12 flex-shrink-0 rounded-xl bg-white/5 border border-white/10 flex items-center justify-center overflow-hidden">
+                          {entry.thumbnail ? (
+                            <img
+                              src={entry.thumbnail}
+                              alt=""
+                              className="w-full h-full object-cover"
+                            />
+                          ) : (
+                            <FileText size={18} className="text-white/40" />
+                          )}
+                        </div>
+                        <div className="min-w-0">
+                          <p className="text-sm text-white/85 font-medium truncate">
+                            {entry.title}
+                          </p>
+                          {entry.channel && (
+                            <p className="text-xs text-white/40 truncate">{entry.channel}</p>
+                          )}
+                        </div>
+                      </button>
+                    </li>
+                  ))}
+                </ul>
+              ) : (
+                <GlassPanel
+                  className="mt-6 p-10 flex flex-col items-center text-center gap-3"
+                  hover={false}
+                >
+                  <div className="w-12 h-12 rounded-full bg-white/5 border border-white/10 flex items-center justify-center">
+                    <FileText size={20} className="text-white/40" />
+                  </div>
+                  <p className="text-sm text-white/40">
+                    Nothing here yet — analyze your first lecture to see it appear.
+                  </p>
+                </GlassPanel>
+              )}
             </div>
           </div>
 

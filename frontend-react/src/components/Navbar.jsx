@@ -4,6 +4,8 @@ import { motion } from "framer-motion";
 import { AudioLines } from "lucide-react";
 
 import ComingSoonModal from "./ComingSoonModal";
+import SoonBadge from "./SoonBadge";
+import { EASE_ENTRANCE } from "../lib/motion";
 
 const navItems = [{ name: "Home", path: "/" }];
 
@@ -15,7 +17,7 @@ function Navbar() {
       <motion.header
       initial={{ opacity: 0, y: -24 }}
       animate={{ opacity: 1, y: 0 }}
-      transition={{ duration: 0.7, ease: [0.16, 1, 0.3, 1] }}
+      transition={{ duration: 0.7, ease: EASE_ENTRANCE }}
       className="fixed top-0 w-full z-50 flex justify-center px-4 pt-4 pb-3 backdrop-blur-md bg-gradient-to-b from-[#05050b]/60 to-transparent"
     >
       <nav
@@ -32,7 +34,11 @@ function Navbar() {
           shadow-[0_8px_32px_-12px_rgba(0,0,0,0.6)]
         "
       >
-        <Link to="/" className="flex items-center gap-2.5 pr-4 mr-1 border-r border-white/10">
+        <Link
+          to="/"
+          aria-label="LectureLens AI — home"
+          className="flex items-center gap-2.5 pr-4 mr-1 border-r border-white/10"
+        >
           <div className="w-9 h-9 rounded-full bg-gradient-to-br from-violet-500 to-indigo-500 flex items-center justify-center shadow-[0_0_20px_-4px_rgba(139,92,246,0.55)]">
             <AudioLines size={18} className="text-white" />
           </div>
@@ -62,9 +68,10 @@ function Navbar() {
 
         <button
           onClick={() => setAiLearningOpen(true)}
-          className="px-4 py-2 rounded-full text-sm text-white/50 hover:text-white hover:bg-white/5 transition-all duration-300"
+          className="flex items-center gap-1.5 px-4 py-2 rounded-full text-sm text-white/50 hover:text-white hover:bg-white/5 transition-all duration-300"
         >
           AI Learning
+          <SoonBadge />
         </button>
       </nav>
       </motion.header>

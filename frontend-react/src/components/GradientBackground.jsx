@@ -6,7 +6,10 @@ function GradientBackground() {
       {/* base radial glow */}
       <div className="absolute inset-0 bg-[radial-gradient(ellipse_80%_50%_at_50%_-10%,rgba(99,102,241,0.25),transparent)]" />
 
-      {/* slow moving iridescent blobs */}
+      {/* slow moving iridescent blobs — trimmed from 4 to 3 layers (the
+          fuchsia accent blob was fully redundant with the violet + indigo
+          blobs at typical viewport sizes) to cut composited blur/mix-blend
+          layers on every page load. */}
       <motion.div
         animate={{
           x: [0, 120, -40, 0],
@@ -27,19 +30,11 @@ function GradientBackground() {
       />
       <motion.div
         animate={{
-          x: [0, 60, -60, 0],
-          y: [0, -40, 30, 0],
-        }}
-        transition={{ duration: 22, repeat: Infinity, ease: "easeInOut" }}
-        className="absolute top-[25%] right-[5%] w-[30vw] h-[30vw] rounded-full bg-fuchsia-500/15 blur-[130px] mix-blend-screen will-change-transform"
-      />
-      <motion.div
-        animate={{
           x: [0, -50, 30, 0],
           y: [0, 40, -50, 0],
         }}
         transition={{ duration: 34, repeat: Infinity, ease: "easeInOut" }}
-        className="absolute top-[55%] left-[5%] w-[26vw] h-[26vw] rounded-full bg-indigo-500/15 blur-[120px] mix-blend-screen will-change-transform"
+        className="absolute top-[55%] left-[5%] w-[28vw] h-[28vw] rounded-full bg-indigo-500/20 blur-[120px] mix-blend-screen will-change-transform"
       />
 
       {/* grain texture for depth */}

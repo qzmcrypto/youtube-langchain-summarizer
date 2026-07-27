@@ -5,6 +5,7 @@ function Button({
   type = "button",
   variant = "primary",
   className = "",
+  disabled = false,
   ...props
 }) {
 
@@ -38,13 +39,14 @@ function Button({
   return (
     <motion.button
       type={type}
+      disabled={disabled}
 
-      whileHover={{
+      whileHover={disabled ? undefined : {
         scale: 1.04,
         transition: { type: "spring", stiffness: 300, damping: 20 },
       }}
 
-      whileTap={{
+      whileTap={disabled ? undefined : {
         scale: 0.97,
         transition: { type: "spring", stiffness: 400, damping: 25 },
       }}
@@ -67,6 +69,10 @@ function Button({
         duration-300
 
         backdrop-blur-xl
+
+        disabled:opacity-50
+        disabled:cursor-not-allowed
+        disabled:grayscale-[0.3]
 
         ${variants[variant]}
 

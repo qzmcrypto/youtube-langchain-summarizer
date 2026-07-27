@@ -20,6 +20,9 @@ function ComingSoonModal({ open, onClose }) {
 
           {/* modal */}
           <motion.div
+            role="dialog"
+            aria-modal="true"
+            aria-labelledby="coming-soon-title"
             initial={{ opacity: 0, scale: 0.92, y: 16 }}
             animate={{ opacity: 1, scale: 1, y: 0 }}
             exit={{ opacity: 0, scale: 0.92, y: 16 }}
@@ -31,6 +34,7 @@ function ComingSoonModal({ open, onClose }) {
 
             <button
               onClick={onClose}
+              aria-label="Close"
               className="absolute top-4 right-4 p-2 rounded-full text-white/40 hover:text-white hover:bg-white/10 transition-colors"
             >
               <X size={18} />
@@ -45,7 +49,9 @@ function ComingSoonModal({ open, onClose }) {
                 <Sparkles size={26} className="text-violet-200" />
               </motion.div>
 
-              <h3 className="mt-6 font-serif text-2xl text-white">AI Learning is on its way</h3>
+              <h3 id="coming-soon-title" className="mt-6 font-serif text-2xl text-white">
+                AI Learning is on its way
+              </h3>
               <p className="mt-3 text-sm text-white/50 leading-relaxed">
                 We're building a smarter way to revisit, quiz, and master what
                 you've learned. Coming soon.

@@ -1,11 +1,13 @@
 import { BrowserRouter, Routes, Route, useLocation } from "react-router-dom";
-import { AnimatePresence } from "framer-motion";
+import { AnimatePresence, MotionConfig } from "framer-motion";
 
 import Home from "./pages/Home";
 import Workspace from "./pages/Workspace";
 import Summary from "./pages/Summary";
+import NotFound from "./pages/NotFound";
 
 import Navbar from "./components/Navbar";
+import ErrorBoundary from "./components/ErrorBoundary";
 
 function AnimatedRoutes() {
   const location = useLocation();
@@ -16,6 +18,7 @@ function AnimatedRoutes() {
         <Route path="/" element={<Home />} />
         <Route path="/workspace" element={<Workspace />} />
         <Route path="/summary" element={<Summary />} />
+        <Route path="*" element={<NotFound />} />
       </Routes>
     </AnimatePresence>
   );
@@ -23,12 +26,16 @@ function AnimatedRoutes() {
 
 function App() {
   return (
-    <BrowserRouter>
-      <div className="min-h-screen bg-[#05050b] text-white">
-        <Navbar />
-        <AnimatedRoutes />
-      </div>
-    </BrowserRouter>
+    <MotionConfig reducedMotion="never">
+      <ErrorBoundary>
+        <BrowserRouter>
+          <div className="min-h-screen bg-[#05050b] text-white">
+            <Navbar />
+            <AnimatedRoutes />
+          </div>
+        </BrowserRouter>
+      </ErrorBoundary>
+    </MotionConfig>
   );
 }
 

@@ -1,5 +1,3 @@
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Fraunces:ital,wght@0,300;0,400;0,500;1,400;1,500&display=swap');
-
 @import "tailwindcss";
 
 @theme {
@@ -10,8 +8,9 @@
 @layer base {
   :root {
     font-family: "Inter", sans-serif;
-    color: #1e293b;
-    background: #f8fafc;
+    color: #ffffff;
+    background: #05050b;
+    color-scheme: dark;
     font-synthesis: none;
     text-rendering: optimizeLegibility;
   }
@@ -24,27 +23,23 @@
 
   html {
     scroll-behavior: smooth;
+    background: #05050b;
   }
 
   body {
     min-height: 100vh;
     overflow-x: hidden;
-    background:
-      radial-gradient(
-        circle at top left,
-        #eef2ff,
-        transparent 35%
-      ),
-      radial-gradient(
-        circle at bottom right,
-        #ccfbf1,
-        transparent 30%
-      ),
-      #f8fafc;
+    background: #05050b;
   }
 
   button,
   input {
     font-family: inherit;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
   }
 }

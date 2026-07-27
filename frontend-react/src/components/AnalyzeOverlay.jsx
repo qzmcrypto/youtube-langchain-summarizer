@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 
 import AIOrb from "./AIOrb";
+import { EASE_ENTRANCE } from "../lib/motion";
 
 const MESSAGES = [
   "Listening to your lecture...",
@@ -13,24 +14,64 @@ const MESSAGES = [
 
 const STEP_DURATION = 2600;
 
-function AnalyzeOverlay({ active }) {
+// Owns its own step state and mounts only while the overlay is active, so
+// the counter starts fresh on every analysis run without an imperative
+// "reset to 0" effect.
+function AnalyzeSteps() {
   const [step, setStep] = useState(0);
 
   useEffect(() => {
-    if (!active) {
-      setStep(0);
-      return;
-    }
-
     const interval = setInterval(() => {
       setStep((s) => Math.min(s + 1, MESSAGES.length - 1));
     }, STEP_DURATION);
 
     return () => clearInterval(interval);
-  }, [active]);
+  }, []);
 
   const progress = ((step + 1) / MESSAGES.length) * 100;
 
+  return (
+    <div className="flex flex-col items-center gap-5">
+      <AnimatePresence mode="wait">
+        <motion.p
+          key={step}
+          initial={{ opacity: 0, y: 14 }}
+          animate={{ opacity: 1, y: 0 }}
+          exit={{ opacity: 0, y: -14 }}
+          transition={{ duration: 0.5, ease: EASE_ENTRANCE }}
+          className="font-serif text-xl md:text-2xl text-white"
+        >
+          {MESSAGES[step]}
+        </motion.p>
+      </AnimatePresence>
+
+      <div className="w-64 h-1.5 rounded-full bg-white/10 overflow-hidden">
+        <motion.div
+          animate={{ width: `${progress}%` }}
+          transition={{ duration: 0.6, ease: "easeOut" }}
+          className="h-full rounded-full bg-gradient-to-r from-violet-500 to-indigo-400 shadow-[0_0_14px_2px_rgba(139,92,246,0.6)]"
+        />
+      </div>
+
+      <div className="flex items-center gap-1.5">
+        {MESSAGES.map((_, i) => (
+          <span
+            key={i}
+            className={`h-1.5 rounded-full transition-all duration-500 ${
+              i === step ? "w-6 bg-violet-400" : "w-1.5 bg-white/20"
+            }`}
+          />
+        ))}
+      </div>
+
+      <p className="text-xs uppercase tracking-[0.25em] text-white/30">
+        Do not close this tab
+      </p>
+    </div>
+  );
+}
+
+function AnalyzeOverlay({ active }) {
   return (
     <AnimatePresence>
       {active && (
@@ -54,44 +95,7 @@ function AnalyzeOverlay({ active }) {
 
           <div className="relative z-10 flex flex-col items-center gap-10 px-6 text-center">
             <AIOrb />
-
-            <div className="flex flex-col items-center gap-5">
-              <AnimatePresence mode="wait">
-                <motion.p
-                  key={step}
-                  initial={{ opacity: 0, y: 14 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  exit={{ opacity: 0, y: -14 }}
-                  transition={{ duration: 0.5, ease: [0.16, 1, 0.3, 1] }}
-                  className="font-serif text-xl md:text-2xl text-white"
-                >
-                  {MESSAGES[step]}
-                </motion.p>
-              </AnimatePresence>
-
-              <div className="w-64 h-1.5 rounded-full bg-white/10 overflow-hidden">
-                <motion.div
-                  animate={{ width: `${progress}%` }}
-                  transition={{ duration: 0.6, ease: "easeOut" }}
-                  className="h-full rounded-full bg-gradient-to-r from-violet-500 to-indigo-400 shadow-[0_0_14px_2px_rgba(139,92,246,0.6)]"
-                />
-              </div>
-
-              <div className="flex items-center gap-1.5">
-                {MESSAGES.map((_, i) => (
-                  <span
-                    key={i}
-                    className={`h-1.5 rounded-full transition-all duration-500 ${
-                      i === step ? "w-6 bg-violet-400" : "w-1.5 bg-white/20"
-                    }`}
-                  />
-                ))}
-              </div>
-
-              <p className="text-xs uppercase tracking-[0.25em] text-white/30">
-                Do not close this tab
-              </p>
-            </div>
+            <AnalyzeSteps />
           </div>
         </motion.div>
       )}
